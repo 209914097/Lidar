@@ -1,3 +1,4 @@
+#请安装 pip install pyserial
 import time
 import serial
 import binascii# hex显示非常感谢http://www.cnblogs.com/r00tgrok/p/hex2char.html
