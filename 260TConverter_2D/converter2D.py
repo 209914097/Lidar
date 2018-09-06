@@ -26,35 +26,10 @@ class converter:
         self.Path = mpath.Path
         self.fig, self.ax = plt.subplots()
 
-    # def Top1(self,offset=0):
-    #     return mpatches.PathPatch(
-    #         self.Path([(-self.TR1, self.TH1+offset), (-self.TR1, 0+offset), (self.TR1, self.TH1+offset), (self.TR1, 0+offset)],
-    #              [self.Path.MOVETO, self.Path.LINETO, self.Path.MOVETO, self.Path.LINETO]),
-    #         fc="none", transform=self.ax.transData)
-    # def Top2(self,offset=0):
-    #     return  mpatches.PathPatch(
-    #         self.Path([(-self.TR1, self.TH2+offset), (-self.TR2, 0+offset), (self.TR1, self.TH2+offset), (self.TR2, 0+offset), ],
-    #          [self.Path.MOVETO, self.Path.LINETO, self.Path.MOVETO, self.Path.LINETO]),
-    #     fc="none", transform=self.ax.transData)
-    #
-    # def M(self,offset=0):
-    #     return mpatches.PathPatch(
-    #         self.Path([(-self.MR, self.MH+offset), (-self.MR, 0+offset), (self.MR, MH+offset), (self.MR, 0+offset)],
-    #          [self.Path.MOVETO, self.Path.LINETO, self.Path.MOVETO, self.Path.LINETO]),
-    #     fc="none", transform=self.ax.transData)
-    #
-    # def Bot1(self,offset=0):
-    #  return mpatches.PathPatch(
-    #      self.Path([(-self.MR, self.BH1 +offset), (-self.BR1, 0+offset), (self.MR, self.BH1+offset), (self.BR1, 0+offset)],
-    #          [self.Path.MOVETO, self.Path.LINETO, self.Path.MOVETO, self.Path.LINETO]),
-    #     fc="none", transform=self.ax.transData)
-    # def Bot2(self,offset=0):
-    #  return mpatches.PathPatch(
-    #      self.Path([(-self.BR1, self.BH2+offset), (0, 0+offset), (self.BR1, self.BH2+offset)],
-    #          [self.Path.MOVETO, self.Path.CURVE3, self.Path.CURVE3]),
-    #     fc="none", transform=self.ax.transData)
+
 
     def Lside(self,offset=0):
+
         return mpatches.PathPatch(
             self.Path([(-self.BR1, 0 + offset), (-self.MR, self.BH1 + offset),
             (-self.MR, self.BH1 + offset), (-self.MR,self.MH+self.BH1 + offset),
@@ -87,18 +62,41 @@ class converter:
          self.Path([(-self.BR1, self.BH2+offset), (0, 0+offset), (self.BR1, self.BH2+offset)],
              [self.Path.MOVETO, self.Path.CURVE3, self.Path.CURVE3]),
         fc="none", transform=self.ax.transData)
+
+    def label(self,offset=0):
+        #------------水平箭头---------#
+        self.ax.annotate('', (self.BR1, 0 + offset),
+                         xytext=(-self.BR1, 0 + offset), arrowprops={'arrowstyle': "<->"})
+        self.ax.text(0,  offset*1.15,str(self.BR1*2) , va="center", ha="center", rotation=0)
+
+        self.ax.annotate('', (-self.MR, self.BH1 + offset),
+                         xytext=(self.MR, self.BH1 + offset), arrowprops={'arrowstyle': "<->"})
+        self.ax.text(0, self.BH1+offset *1.15, str(self.MR * 2), va="center", ha="center", rotation=0)
+
+        self.ax.annotate('', (-self.TR1, self.TH2 + self.MH + self.BH1 + offset),
+                         xytext=(self.TR1, self.TH2 + self.MH + self.BH1 + offset), arrowprops={'arrowstyle': "<->"})
+        self.ax.text(0, self.TH2 + self.MH + self.BH1 + offset * 1.15, str(self.TR1 * 2), va="center", ha="center", rotation=0)
+
+        # ------------垂直箭头---------#
+        self.ax.annotate('', (-self.MR-self.MR/10, self.BH1 + offset),
+                         xytext=(-self.MR-self.MR/10, self.MH+ self.BH1 + offset), arrowprops={'arrowstyle': "<->"})
+        self.ax.text(-self.MR-self.MR/10- offset * 0.15, self.MH/2+ self.BH1 + offset, str(self.MH ), va="center", ha="center",
+                     rotation=90)
+
+        self.ax.annotate('', (+self.MR + self.MR / 10, 0 + offset/2),
+                         xytext=(self.MR + self.MR / 10,  self.TH1 +self.TH2 + self.MH + self.BH1 + offset),
+                         arrowprops={'arrowstyle': "<->"})
+        self.ax.text(self.MR + self.MR / 10 + offset * 0.2, (self.TH1 +self.TH2 + self.MH + self.BH1+offset*3/2)/2, str(self.TH1 +self.TH2 + self.MH + self.BH1+ self.BH2),
+                     va="center", ha="center",
+                     rotation=90)
+
     def draw(self):
-        # self.ax.add_patch(self.Bot2())
-        # self.ax.add_patch(self.Bot1(offset=self.BH2))
-        # self.ax.add_patch(self.M(offset=self.BH2+self.BH1))
-        # self.ax.add_patch(self.Top2(offset=self.BH2 + self.BH1 + self.MH))
-        # self.ax.add_patch(self.Top1(offset=self.BH2 + self.BH1 + self.MH + self.TH2))
 
         self.ax.add_patch(self.Lside(offset=self.BH2))
         self.ax.add_patch(self.Rside(offset=self.BH2))
         self.ax.add_patch(self.Bside())
         self.ax.axis("equal")
-
+        self.label(offset=self.BH2)
         plt.show()
 
 
