@@ -9,4 +9,4 @@
 <img src='https://github.com/209914097/Lidar/blob/master/plotly/img/surface.gif' width='700px'>
 
 <img src='https://github.com/209914097/Lidar/blob/master/plotly/img/contour.PNG' width='600px'>
-
+在扫描模型中可以得出天花板&灯管各部位到测量基准点的距离
